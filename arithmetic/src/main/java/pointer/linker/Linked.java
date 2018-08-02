@@ -99,6 +99,37 @@ class Linked {
     }
 
     /**
+     * 判断链表是否有环， 用快慢指针判断
+     * @return
+     */
+    public boolean judgeLinkerHascircle(){
+        LinkerNode<Integer> skipOneStep = null;
+        LinkerNode<Integer> skipTwoStep = null;
+        if(root != null){
+            skipOneStep = root;
+            skipTwoStep = root;
+        }
+        while(true){
+            if(skipOneStep.getNext() != null){
+                skipOneStep = skipOneStep.getNext();
+            }
+            else{
+                break;
+            }
+            if(skipTwoStep.getNext() != null){
+                skipTwoStep = skipTwoStep.getNext().getNext();
+            }
+            else{
+                break;
+            }
+            if(skipOneStep == skipTwoStep){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * 验证
      * @param args
      */
@@ -106,6 +137,6 @@ class Linked {
         Linked linked = new Linked();
         linked.initLinder(10);
         System.out.println(linked.getMiddleLinkerNodeValue());
-        linked.inversionLinker();
+        System.out.println(linked.judgeLinkerHascircle());
     }
 }
