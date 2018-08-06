@@ -5,6 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Queue;
+import java.util.Stack;
+import java.util.concurrent.ArrayBlockingQueue;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -82,13 +86,54 @@ public class BinaryTree {
         }
     }
 
+    /**
+     * 二叉树遍历
+     */
+    public void recursionTraverse(BinaryTreeNode<String> tempRoot){
+        /**
+         * 递归遍历
+         */
+        if(tempRoot == null){
+            return;
+        }
+        System.out.println(tempRoot.getValue());
+        recursionTraverse(tempRoot.getLeNode());
+        recursionTraverse(tempRoot.getRiNode());
+    }
+
+    /**
+     * 二叉树非递归遍历
+     * 用栈实现
+     */
+    public void stackTraverse(){
+        Stack<BinaryTreeNode<String>> stack = new Stack<BinaryTreeNode<String>>();
+        BinaryTreeNode<String> tempRoot = this.root;
+        while(true){
+            if(tempRoot != null){
+                System.out.println(tempRoot.getValue());
+                if(tempRoot.getRiNode() != null){
+                    stack.push(tempRoot.getRiNode());
+                }
+                if(tempRoot.getLeNode() != null){
+                    tempRoot = tempRoot.getLeNode();
+                }
+                else if(!stack.isEmpty()){
+                    tempRoot = stack.pop();
+                }
+                else{
+                    break;
+                }
+            }
+        }
+    }
+
+
     public static void main(String[] args){
         BinaryTree binaryTree = new BinaryTree();
         binaryTree.initTree(7);
-        BinaryTreeNode<String> node = new BinaryTreeNode<String>();
-        node.setValue("abc");
-        binaryTree.insertNode(binaryTree.getRoot(), node);
 
+        binaryTree.stackTraverse();
+        binaryTree.recursionTraverse(binaryTree.getRoot());
         System.out.println("hello world!");
     }
 }
