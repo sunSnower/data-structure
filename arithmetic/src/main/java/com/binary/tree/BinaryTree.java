@@ -12,6 +12,10 @@ import lombok.Setter;
 public class BinaryTree {
     BinaryTreeNode<String> root;
 
+    /**
+     * 初始化二叉树，根据指定的节点构造完全二叉树
+     * @param sumNodes
+     */
     public void initTree(int sumNodes){
         if(sumNodes <= 0){
             return;
@@ -60,13 +64,31 @@ public class BinaryTree {
     /**
      * 按有序树规则插入指定节点
      */
-    public void insertNode(){
-
+    public void insertNode(BinaryTreeNode<String> tempRoot, BinaryTreeNode<String> node){
+        if(tempRoot == null){
+            return;
+        }
+        if(tempRoot.getLeNode() == null && tempRoot.getValue().compareTo(node.getValue()) >= 0){
+            tempRoot.setLeNode(node);
+        }
+        else if(tempRoot.getRiNode() == null && tempRoot.getValue().compareTo(node.getValue()) < 0){
+            tempRoot.setRiNode(node);
+        }
+        else if(tempRoot.getLeNode() != null){
+            insertNode(tempRoot.getLeNode(), node);
+        }
+        else{
+            insertNode(tempRoot, node);
+        }
     }
 
     public static void main(String[] args){
         BinaryTree binaryTree = new BinaryTree();
         binaryTree.initTree(7);
+        BinaryTreeNode<String> node = new BinaryTreeNode<String>();
+        node.setValue("abc");
+        binaryTree.insertNode(binaryTree.getRoot(), node);
+
         System.out.println("hello world!");
     }
 }
